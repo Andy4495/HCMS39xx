@@ -1,10 +1,10 @@
 # HCMS39xx Library
 
-This library interfaces with Broadcom/Avago [HCMS-39xx][2] series LED displays. 
+This library interfaces with Broadcom/Avago [HCMS-39xx][2] series LED displays.
 
-There are multiple displays in this series with various colors and display characters. 
+There are multiple displays in this series with various colors and display characters.
 
-The library was specifically tested with a single HCMS-3964 display, but should work with other displays in the series. It should also work with multiple displays cascaded together per the datasheet recommended configuration. 
+The library was specifically tested with a single HCMS-3964 display, but should work with other displays in the series. It should also work with multiple displays cascaded together per the datasheet recommended configuration.
 
 ## Usage
 
@@ -38,7 +38,6 @@ myDisplay.begin();
 
 1. Research different num_chars and daisy-chaining of devices in family. May need to update code in begin() and elsewhere to account for different display sizes and cascading.
 2. No error checking for size of string sent to display (does this matter?)
-
 
 ## References
 

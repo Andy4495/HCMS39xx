@@ -16,7 +16,7 @@ class HCMS39xx {
 public:
   enum {NO_PIN = 255};
 
-  HCMS39xx(uint8_t num_chars, uint8_t num_devices, uint8_t data_pin, uint8_t clk_pin, uint8_t rs_pin, uint8_t ce_pin, uint8_t blank_pin, uint8_t osc_select_pin = NO_PIN);
+  HCMS39xx(uint8_t num_chars, uint8_t num_devices, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, uint8_t ce_pin, uint8_t blank_pin, uint8_t osc_select_pin = NO_PIN);
   void begin(); 
   void print(const char*);
   void printDirect(const uint8_t*, uint8_t len);
