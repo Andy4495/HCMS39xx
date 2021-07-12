@@ -38,6 +38,10 @@ myDisplay.begin();
 
 1. Research different num_chars and daisy-chaining of devices in family. May need to update code in begin() and elsewhere to account for different display sizes and cascading.
 2. No error checking for size of string sent to display (does this matter?)
+3. Make BLANK pin optional with NO_PIN default constructor.
+4. Add font table and support for characters (implement print() method).
+5. Implement setPrescale().
+6. Add and implement setSerialMode().
 
 ## References
 

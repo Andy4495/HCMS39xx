@@ -15,8 +15,11 @@ class HCMS39xx {
  
 public:
   enum {NO_PIN = 255};
+  enum {DEFAULT_BRIGHTNESS = 0x0C}; // 0x0C => 0010 -> 47% relative brightness
+  enum {DEFAULT_CURRENT = 0x20};   // 0x20 => 10 -> 4.0 mA peak pixel current (lowest setting) 
 
-  HCMS39xx(uint8_t num_chars, uint8_t num_devices, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, uint8_t ce_pin, uint8_t blank_pin, uint8_t osc_select_pin = NO_PIN);
+  HCMS39xx(uint8_t num_chars, uint8_t num_devices, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
+           uint8_t ce_pin, uint8_t blank_pin, uint8_t osc_select_pin = NO_PIN);
   void begin(); 
   void print(const char*);
   void printDirect(const uint8_t*, uint8_t len);
@@ -32,8 +35,6 @@ public:
 
 private:
   enum POWER_MODE {WAKEUP = 0x40, SLEEP = 0};
-  enum {DEFAULT_BRIGHTNESS = 0x0C}; // 0x0C => 0010 -> 47% relative brightness
-  enum {DEFAULT_CURRENT = 0x20};   // 0x20 => 10 -> 4.0 mA peak pixel current (lowest setting) 
   enum {SLEEP_MASK = 0x40};
   enum {PIXEL_CURRENT_MASK = 0x30}; 
   enum {BRIGHTNESS_MASK = 0x0F}; 

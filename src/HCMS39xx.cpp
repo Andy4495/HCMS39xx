@@ -40,7 +40,7 @@ void HCMS39xx::begin() {
     digitalWrite(_rs_pin, LOW); 
     digitalWrite(_ce_pin, LOW); 
     for (i = 0; i < 20*_num_devices; i++) {
-        send_byte(0x55); 
+        send_byte(0); 
     }
     digitalWrite(_ce_pin, HIGH); 
     digitalWrite(_clk_pin, LOW); 
