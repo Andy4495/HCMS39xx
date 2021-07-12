@@ -7,6 +7,7 @@
 */
 
 #include "HCMS39xx.h"
+#include "font5x7.h"
 
 HCMS39xx::HCMS39xx(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
                    uint8_t ce_pin, uint8_t blank_pin, uint8_t osc_select_pin) {
@@ -73,7 +74,16 @@ void HCMS39xx::begin() {
 }
 
 void HCMS39xx::print(const char* s) {
+    uint8_t i; 
 
+    for (i = 0; i < _num_chars; i++) { // Don't loop for more chars in the display
+        if (s[i] != 0) {
+            sendDotData(Font5x7 + (s[i] - 32) * 5, 5);
+        }
+        else  { // If we find a NULL terminator, then exit out
+            break;
+        }
+    }
 }
 
 void HCMS39xx::printDirect(const uint8_t* s, uint8_t len) {
