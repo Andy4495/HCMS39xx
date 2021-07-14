@@ -1,10 +1,10 @@
 # HCMS39xx Library
 
-This library interfaces with Broadcom/Avago [HCMS-39xx][2] series LED displays.
+This library interfaces with Broadcom/Avago [HCMS-39xx][2] and [HCMS-29xx][4] series LED displays.
 
 There are multiple displays in this series with various colors and display characters.
 
-The library was specifically tested with a single HCMS-3964 display (4 character, 0.2", orange), but should work with other displays in the series. It should also work with multiple displays cascaded together.
+The library was specifically tested with a single HCMS-3964 display (4 character, 0.2", orange), but should work with other displays in the either the 29xx or 39xx series. It should also work with multiple displays cascaded together.
 
 ## Usage
 
@@ -38,18 +38,17 @@ Note that display is blanked when initially created (if blank_pin is defined), s
 
 ## To-Do
 
-1. Research different num_chars and daisy-chaining of devices in family. May need to update code in begin() and elsewhere to account for different display sizes and cascading. Either 4 chars or 8 chars per device. Each device has one IC per 4 chars. So just divide by 4 to get number of controller ICs. DONE.
-2. No error checking for size of string sent to display. DOESN'T MATTER. String is declared as const. 
-3. Make BLANK pin optional with NO_PIN default constructor. DONE
-4. Add font table and support for characters (implement print() method). DONE
-5. Implement setPrescale(). DONE
-6. Add and implement setSerialMode(). DONE 
-7. Explain the ordering of pixels in this README. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)
-8. Document default settings when device is created and after begin(). Pixels, control word 0, control word 1. 
+1. Explain the ordering of pixels in this README. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)
+2. Document default settings when device is created and after begin(). Pixels, control word 0, control word 1.
+3. Compare to Stoffregen/Igoe library: pixel current control, blank pin, uses more RAM for pixel data (20 bytes per 4 chars) and string (5 bytes). Check memory usage compiling with each library.
+4. Use pixel map from Broadcom App Note.
+5. Add a clear() method.
 
 ## References
 
 + HCMS-39xx [datasheet][1]
++ Broadcom [Application Note][3] with ASCII font encoding data.
++ Broadcom 29xx series [datasheet][4]
 
 ## License
 
@@ -57,6 +56,8 @@ The software and other files in this repository are released under what is commo
 
 [1]:https://docs.broadcom.com/docs/AV02-0868EN
 [2]:https://www.broadcom.com/products/leds-and-displays/smart-alphanumeric-displays/serial-interface/hcms-3964
+[3]:https://docs.broadcom.com/doc/5988-7539EN
+[4]]:https://docs.broadcom.com/doc/HCMS-29xx-Series-High-Performance-CMOS-5-x-7-Alphanumeric-Displays
 [100]: https://choosealicense.com/licenses/mit/
 [101]: ./LICENSE
 [200]: https://github.com/Andy4495/HCMS39xx
