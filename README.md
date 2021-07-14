@@ -41,7 +41,7 @@ Note that display is blanked when initially created (if blank_pin is defined), s
 1. Research different num_chars and daisy-chaining of devices in family. May need to update code in begin() and elsewhere to account for different display sizes and cascading. Either 4 chars or 8 chars per device. Each device has one IC per 4 chars. So just divide by 4 to get number of controller ICs. DONE.
 2. No error checking for size of string sent to display. DOESN'T MATTER. String is declared as const. 
 3. Make BLANK pin optional with NO_PIN default constructor. DONE
-4. Add font table and support for characters (implement print() method).
+4. Add font table and support for characters (implement print() method). DONE
 5. Implement setPrescale(). DONE
 6. Add and implement setSerialMode(). DONE 
 7. Explain the ordering of pixels in this README. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)

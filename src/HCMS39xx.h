@@ -35,7 +35,6 @@ public:
   void setExternalPrescaleNormal();
   void setSimultaneousMode();
   void setSerialMode();
-  void sendControlData(const uint8_t* b, uint8_t length);
 
 private:
   enum POWER_MODE {WAKEUP = 0x40, SLEEP = 0};
@@ -51,9 +50,11 @@ private:
   uint8_t _control_word0;
   uint8_t _control_word1; 
 
-  void sendDotData(const uint8_t *b, uint8_t length);
-  void send_control(uint8_t b);
-  void send_byte(uint8_t b);   
+  void setupDotData();
+  void setupControlData();
+  void endTransmission();
+  void sendFontData(const uint8_t *b, uint8_t length);
+  void sendByte(uint8_t b);   
 };
 
 #endif
