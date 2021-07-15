@@ -185,4 +185,8 @@ void loop() {
   delay(200);
   myDisplay.print("h"); 
   delay(3000);
+
+  Serial.println("Example 15: Clear the display with clear() method.");
+  myDisplay.clear();
+  delay(3000);
 }

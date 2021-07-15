@@ -39,11 +39,10 @@ void HCMS39xx::begin() {
     uint8_t i; 
 
     // Set all dot values to LOW
-    setupDotData();
-    for (i = 0; i < _num_chars * COLUMNS_PER_CHAR; i++) {
-        sendByte(0);
-    }
-    endTransmission(); 
+    clear();
+
+    // Set up the font
+    _first_ascii = pgm_read_byte(&font5x7[0]);
 
     // Load control word 0 with desired brightness and set sleep bit HIGH
     _control_word0 = WAKEUP | DEFAULT_BRIGHTNESS | DEFAULT_CURRENT; 
@@ -68,7 +67,7 @@ void HCMS39xx::print(const char* s) {
     setupDotData();
     for (i = 0; i < _num_chars; i++) { // Don't loop for more chars in the display
         if (s[i] != 0) {
-            sendFontData(font5x7 + (s[i] - ' ') * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
+            sendFontData(font5x7 + (s[i] - _first_ascii) * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
         }
         else  { // If we find a NULL terminator, then exit out
             break;
@@ -85,6 +84,16 @@ void HCMS39xx::printDirect(const uint8_t* s, uint8_t len) {
         sendByte(s[i]);
     }
     endTransmission();
+}
+
+void HCMS39xx::clear() {
+    uint8_t i; 
+
+    setupDotData();
+    for (i = 0; i < _num_chars * COLUMNS_PER_CHAR; i++) {
+        sendByte(0);
+    }
+    endTransmission(); 
 }
 
 void HCMS39xx::displaySleep() {

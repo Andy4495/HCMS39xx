@@ -23,6 +23,7 @@ public:
   void begin(); 
   void print(const char*);
   void printDirect(const uint8_t*, uint8_t len);
+  void clear();
   void displaySleep();
   void displayWakeup();
   void displayBlank();
@@ -46,6 +47,7 @@ private:
   enum {DATA_OUT_MODE_SIMUL = 0x01}; 
   enum {CHARS_PER_DEVICE = 4, COLUMNS_PER_CHAR = 5};
   uint8_t _num_chars; 
+  uint8_t _first_ascii; 
   uint8_t _data_pin, _clk_pin, _rs_pin, _ce_pin, _blank_pin, _osc_select_pin; 
   uint8_t _control_word0;
   uint8_t _control_word1; 
