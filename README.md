@@ -6,6 +6,21 @@ There are multiple displays in this series with various colors and display chara
 
 The library was specifically tested with a single HCMS-3964 display (4 character, 0.2", orange), but should work with other displays in the either the 29xx or 39xx series. It should also work with multiple displays cascaded together.
 
+## Comparison With LedDisplay Library
+
+This library provides similar functionality as the [LedDisplay library][5]. The following summarizes the main differences:
+
+- HCMS39xx does not inherit from the Print class.
+  - HCMS39xx requires less flash and RAM
+  - HCMS39xx does not support cursor functionality
+  - HCMS39xx does not suport scrolling functionality, but the serial nature of loading the pixel data into the chip makes scrolling simple to implement outside of the library.
+- HCMS39xx supports controlling the _blank_ and _osc_ pins.
+- HCMS39xx supports the display sleep functionality.
+- HCMS39xx supports the LED display current control functionality.
+- HCMS39xx supports the external oscillator prescale settings
+- HCMS39xx more elegantly supports simultaneous mode
+  - LedDisplay has a method to use simultaneous mode when writing control registers, but it serially writes all the chips to enable the mode, thereby defeating the purpose of simultaneous mode.
+
 ## Usage
 
 _Be sure to review the example sketch included with the library._
@@ -76,6 +91,8 @@ The software and other files in this repository are released under what is commo
 [2]:https://www.broadcom.com/products/leds-and-displays/smart-alphanumeric-displays/serial-interface/hcms-3964
 [3]:https://docs.broadcom.com/doc/5988-7539EN
 [4]:https://docs.broadcom.com/doc/HCMS-29xx-Series-High-Performance-CMOS-5-x-7-Alphanumeric-Displays
+[5]:https://github.com/PaulStoffregen/LedDisplay
+[6]:https://playground.arduino.cc/Main/LedDisplay/
 [100]: https://choosealicense.com/licenses/mit/
 [101]: ./LICENSE
 [200]: https://github.com/Andy4495/HCMS39xx
