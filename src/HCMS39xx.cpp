@@ -42,7 +42,7 @@ void HCMS39xx::begin() {
     clear();
 
     // Set up the font
-    _first_ascii = pgm_read_byte(&font5x7[0]);
+    _first_ascii_index = pgm_read_byte(&font5x7[0]) - 1; // Need to add 1 since the first entry in table is font meta-data
 
     // Load control word 0 with desired brightness and set sleep bit HIGH
     _control_word0 = WAKEUP | DEFAULT_BRIGHTNESS | DEFAULT_CURRENT; 
@@ -67,7 +67,7 @@ void HCMS39xx::print(const char* s) {
     setupDotData();
     for (i = 0; i < _num_chars; i++) { // Don't loop for more chars in the display
         if (s[i] != 0) {
-            sendFontData(font5x7 + (s[i] - _first_ascii) * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
+            sendFontData(font5x7 + (s[i] - _first_ascii_index) * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
         }
         else  { // If we find a NULL terminator, then exit out
             break;

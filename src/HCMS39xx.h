@@ -45,9 +45,9 @@ private:
   enum {CONTROL_WORD1  = 0x80}; 
   enum {EXT_PRESCALER_DIV8 = 0x02}; 
   enum {DATA_OUT_MODE_SIMUL = 0x01}; 
-  enum {CHARS_PER_DEVICE = 4, COLUMNS_PER_CHAR = 5};
+  enum {CHARS_PER_DEVICE = 4, COLUMNS_PER_CHAR = 5U};
   uint8_t _num_chars; 
-  uint8_t _first_ascii; 
+  uint8_t _first_ascii_index; 
   uint8_t _data_pin, _clk_pin, _rs_pin, _ce_pin, _blank_pin, _osc_select_pin; 
   uint8_t _control_word0;
   uint8_t _control_word1; 

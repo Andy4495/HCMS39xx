@@ -16,10 +16,16 @@ HCMS39xx myDisplay(4, 6, 7, 8, 9, 10); // osc_select_pin tied high, not connecte
 
 // Since we are only displaying one character at a time, then displaydata
 // can be pretty small. If you want to test printing longer strings at
-// a time, then size MAXLEN accordingly, makeing sure to allocate space
+// a time, then size MAXLEN accordingly, making sure to allocate space
 // for the NULL terminator. 
 #define MAXLEN 2
 char displaydata[MAXLEN];
+
+#define DELAYMS 1000UL
+#define FIRSTCHAR 1
+#define LASTCHAR 127
+
+unsigned long prevmillis;
 
 void setup() {
   Serial.begin(9600);
@@ -27,19 +33,34 @@ void setup() {
   myDisplay.displayUnblank();
 
   Serial.println("Character Font Test");
+
+  displaydata[1] = 0; // Null terminate
+  prevmillis = millis();
 }
 
 void loop() {
-  int i;
 
-  displaydata[1] = 0; // Null terminate
-
-  for (i = 32; i < 128; i++) {
-    displaydata[0] = i;
-    myDisplay.print(displaydata);
-    Serial.print(displaydata);
-    Serial.print(" ");
-    delay(200);
+  if (millis() - prevmillis > DELAYMS) {
+    displaychar();
   }
-  Serial.println("");
+}
+
+void displaychar() {
+  static byte i = FIRSTCHAR; 
+
+  displaydata[0] = i;
+  myDisplay.print(displaydata);
+  prevmillis = millis(); 
+  if ((i < 32) || (i > 126)) { // For non-printable characters, just display hex value
+    Serial.print("<");
+    Serial.print(i, HEX); 
+    Serial.print(">"); 
+  }
+  else Serial.print(displaydata);
+  Serial.print(" ");
+  i++;
+  if (i > LASTCHAR) {
+    Serial.println(""); 
+    i = FIRSTCHAR;
+  }
 }
