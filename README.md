@@ -19,7 +19,8 @@ First, **include** the library header file:
 Next, **instantiate** an HCMS39xx object:
 
 ```cpp
-HCMS39xx myDisplay(...TBD...);
+HCMS39xx myDisplay(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
+           uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN);
 ```
 
 Then **initialize** the object (typically within `setup()`):
@@ -31,27 +32,41 @@ myDisplay.begin();
 ### Library Methods
 
 ```cpp
-... Add supported methods here ...
+  void print(const char*);
+  void printDirect(const uint8_t*, uint8_t len);
+  void clear();
+  void displaySleep();
+  void displayWakeup();
+  void displayBlank();
+  void displayUnblank();
+  void setBrightness(uint8_t value); // 0 <= value <= 15 
+  void setCurrent(uint8_t value); // See header file for enumerated definitions for value
+  void setExtOsc();
+  void setIntOsc();
+  void setExternalPrescaleDiv8();
+  void setExternalPrescaleNormal();
+  void setSimultaneousMode();
+  void setSerialMode();
 ```
 
-Note that display is blanked when initially created (if blank_pin is defined), so need to use the Unblank() method to display characters.
+Note that the display is blanked when it is initially created (if blank_pin is defined), so you need to use the displayUnblank() method before any characters will actually be displayed.
+
+## Implementation Details
+
+- Ordering of pixels. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)
+- Default settings after calling begin(): pixels, control word0, control word 1. Screen blanked.
+- Pixel map from Broadcom [app note][3] Table 1. Notes on updating pixel map and adding characters. Also font map meta-data. How to easily add strikethrough to characters and other hints.
 
 ## To-Do
 
-1. Explain the ordering of pixels in this README. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)
-2. Document default settings when device is created and after begin(). Pixels, control word 0, control word 1.
-3. Compare to Stoffregen/Igoe library: pixel current control, blank pin, uses more RAM for pixel data (20 bytes per 4 chars) and string (5 bytes). Check memory usage compiling with each library.
-4. Use pixel map from Broadcom App Note. DONE
-5. Add a clear() method, test, and add to EX1. DONE
-6. Add print methods for ints and floats (I think I only need one each, as automatic casting will cover other cases).
-7. Mention in readme that Font5x7 array is available to code, and could potentially be used in a sketch (e.g., to find the last array element, specific bit maps to use if using printDirect to add strikethrough to letters, etc)
-8. Test library (both examples) on both Arduino and Energia before publishing.
+1. Add print methods for ints and floats (I think I only need one each, as automatic casting will cover other cases).
+2. Test library (both examples) on both Arduino and Energia before publishing.
 
 ## References
 
-+ HCMS-39xx [datasheet][1]
-+ Broadcom [Application Note][3] with ASCII font encoding data.
-+ Broadcom 29xx series [datasheet][4]
+- HCMS-39xx [datasheet][1]
+- Broadcom [Application Note][3] with ASCII font encoding data.
+- Broadcom 29xx series [datasheet][4]
 
 ## License
 
