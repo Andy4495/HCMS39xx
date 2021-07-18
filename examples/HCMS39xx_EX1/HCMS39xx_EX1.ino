@@ -170,7 +170,7 @@ void loop() {
   Serial.println("");
   Serial.println("    Setting current control back to default level.");
   myDisplay.setCurrent(HCMS39xx::DEFAULT_CURRENT);
-  sleep(2000);
+  delay(2000);
 
   Serial.println("Example 13: Display characters 'AbCd' all at once.");
   // Use print() method to display ASCII chars. 
