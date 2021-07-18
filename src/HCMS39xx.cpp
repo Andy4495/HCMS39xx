@@ -42,9 +42,9 @@ void HCMS39xx::begin() {
     clear();
 
     // Set up the font
-    _first_ascii_index = pgm_read_byte(&font5x7[0]) - 1; // Need to add 1 since the first entry in table is font meta-data
+    _first_ascii_index = pgm_read_byte(&font5x7[0]) - 1; // Need to subtract 1 since the first entry in table is font meta-data
 
-    // Load control word 0 with desired brightness and set sleep bit HIGH
+    // Per datasheet, load control word 0 with desired brightness and set sleep bit HIGH
     _control_word0 = WAKEUP | DEFAULT_BRIGHTNESS | DEFAULT_CURRENT; 
     setupControlData();
     for (i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
@@ -65,11 +65,11 @@ void HCMS39xx::print(const char* s) {
     uint8_t i; 
 
     setupDotData();
-    for (i = 0; i < _num_chars; i++) { // Don't loop for more chars in the display
+    for (i = 0; i < _num_chars; i++) { // Don't loop for more chars than defined for the display object
         if (s[i] != 0) {
             sendFontData(font5x7 + (s[i] - _first_ascii_index) * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
         }
-        else  { // If we find a NULL terminator, then exit out
+        else  { // If we find a NULL terminator, then break out of loop
             break;
         }
     }
@@ -164,7 +164,7 @@ void HCMS39xx::setCurrent(uint8_t value) {
     uint8_t temp_control_word1 = _control_word1; 
 
     setSimultaneousMode(); // Turn on simultaneous 
-    _control_word0 = (_control_word0 & ~PIXEL_CURRENT_MASK) | ((value << 4) & PIXEL_CURRENT_MASK); 
+    _control_word0 = (_control_word0 & ~PIXEL_CURRENT_MASK) | (value & PIXEL_CURRENT_MASK); 
     setupControlData();
     sendByte(_control_word0); 
     endTransmission();

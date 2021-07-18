@@ -50,6 +50,7 @@ void loop() {
   delay(3000);
 
   Serial.println("Example 4: Blank the display with the BL pin. OSC pin keeps oscillating.");
+  // displayBlank() has no effect if blank_pin was defined as "NO_PIN" in the constructor
   myDisplay.displayBlank();
   delay(2000);
 
@@ -92,9 +93,9 @@ void loop() {
 
   Serial.println("Example 9: Scroll a character at a time.");
   // Each call to printDirect is a single scroll.
-  // So sending one character at a time (5 columns) will scroll one character
-  // Note that because the operation is so fast, you can't actually see the scroll
-  // unless you add a delay.
+  // So sending 5 columns at a time will scroll one character
+  // Note that because the operation is so fast, you can't actually 
+  // see the scroll unless you add a delay.
   displaydata[15] = 0xFF;
   myDisplay.printDirect(displaydata + 15, 5);
   delay(1000);
@@ -155,16 +156,16 @@ void loop() {
   Serial.println("Example 12: Pixel current control. Lowest current to highest (4 steps, 1 second per step).");
   // Another way to control brightness
   Serial.print("    Pixel current 4.0mA...");
-  myDisplay.setCurrent(0x02);
+  myDisplay.setCurrent(HCMS39xx::CURRENT_4_0_mA);
   delay(1000);
   Serial.print("6.4mA...");
-  myDisplay.setCurrent(0x01);
+  myDisplay.setCurrent(HCMS39xx::CURRENT_6_4_mA);
   delay(1000);
   Serial.print("9.3mA...");
-  myDisplay.setCurrent(0x00);
+  myDisplay.setCurrent(HCMS39xx::CURRENT_9_3_mA);
   delay(1000);
   Serial.print("12.8mA...");
-  myDisplay.setCurrent(0x03);
+  myDisplay.setCurrent(HCMS39xx::CURRENT_12_8_mA);
   delay(1000);
   Serial.println("");
   Serial.println("    Setting current control back to default level.");

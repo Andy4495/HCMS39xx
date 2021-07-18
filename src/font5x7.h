@@ -9,29 +9,30 @@
 #ifndef FONT5X7_H
 #define FONT5X7_H 
 
-// First element is ASCII 32 (0x20), each character is 5 bytes (columns)
+// First character bitmap is ASCII 1 (0x01) and each character is 5 bytes (columns)
 // Therefore, to access array using ASCII character value as index: 
-//   font5x7[(c - 32) * 5]
+//   font5x7[(c - 1) * 5]
 //
 // Each element in the array represents a column.
-// The msb of each column is unused (either no pixel or always off).
+// The msb of each column is unused (there are only 7 pixes per column).
 // The next msb is the bottom pixel of the character pixel column, and 
 // the lsb is the top pixel of the column.
 //
 
-// Font map from Avago/Broadcom Application Brief D-003, Table 1
+// The following font bitmap is adapted from Table 1 of Avago/Broadcom Application Brief D-003. 
 // https://docs.broadcom.com/doc/5988-7539EN
-// Some characters changed from Application Brief as noted below.
+// Some characters were changed from the Application Brief as noted below.
 
 static const unsigned char PROGMEM font5x7[] = {
 
 //  Character 0x00 is not printable since 0x00 is used to indicate NULL terminator in c-strings
-//  So use the first array slot to specify the Font meta-data: 
+//  So use the first bitmap slot (5 elements) in the array to specify the Font meta-data: 
 //  ASCII offset, last ASCII character, don't care, don't care, don't care
 //  ASCII offset is the ASCII value of the first defined bitmap in this table. It should never be less than 1.
 	0x01, 0x7F, 0x00, 0x00, 0x00, // 0x00 
 
-// The first 32 ASCII codes (0x00 to 0x1F) are normally non-printable control characters
+// The first 32 ASCII codes (0x00 to 0x1F) are normally non-printable control characters.
+// So use these slots for characters not defined by ASCII
 	0x30, 0x48, 0x45, 0x40, 0x20, // 0x01 (inverted question mark) - changed from 0x30, 0x45, 0x48, 0x40, 0x30
 	0x45, 0x29, 0x11, 0x29, 0x45, // 0x02 (x bar)
 	0x7D, 0x09, 0x11, 0x21, 0x7D, // 0x03 (N bar)
@@ -64,7 +65,7 @@ static const unsigned char PROGMEM font5x7[] = {
 	0x48, 0x7E, 0x49, 0x41, 0x42, // 0x1E (pound sterling)
 	0x01, 0x12, 0x7C, 0x12, 0x01, // 0x1F (yen)
 // Standard printable ASCII characters start at 32 (0x20)
-	0x00, 0x00, 0x00, 0x00, 0x00, // 0x20 (spc)
+	0x00, 0x00, 0x00, 0x00, 0x00, // 0x20 (space)
 	0x00, 0x5F, 0x00, 0x00, 0x00, // 0x21 !
 	0x00, 0x03, 0x00, 0x03, 0x00, // 0x22 "
 	0x14, 0x7F, 0x14, 0x7F, 0x14, // 0x23 #
@@ -79,7 +80,7 @@ static const unsigned char PROGMEM font5x7[] = {
 	0x00, 0x58, 0x38, 0x00, 0x00, // 0x2C ,
 	0x08, 0x08, 0x08, 0x08, 0x08, // 0x2D -
 	0x00, 0x30, 0x30, 0x00, 0x00, // 0x2E .
-	0x20, 0x10, 0x08, 0x04, 0x02, // 0x2F / (slash)
+	0x20, 0x10, 0x08, 0x04, 0x02, // 0x2F / 
 	0x3E, 0x51, 0x49, 0x45, 0x3E, // 0x30 0
 	0x00, 0x42, 0x7F, 0x40, 0x00, // 0x31 1
 	0x62, 0x51, 0x49, 0x49, 0x46, // 0x32 2

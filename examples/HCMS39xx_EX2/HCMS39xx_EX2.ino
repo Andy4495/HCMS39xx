@@ -1,6 +1,6 @@
 /* -----------------------------------------------------------------
 
-   Example 2 - Display each every character in font file
+   Example 2 - Display each character in the font file
 
    HCMS39xx Library
    https://github.com/Andy4495/HCMS39xx
@@ -32,7 +32,7 @@ void setup() {
   myDisplay.begin();
   myDisplay.displayUnblank();
 
-  Serial.println("Character Font Test");
+  Serial.println("HCMS39xx Library Example 2: Character Font Test");
 
   displaydata[1] = 0; // Null terminate
   prevmillis = millis();

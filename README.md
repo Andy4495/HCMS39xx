@@ -43,7 +43,7 @@ Note that display is blanked when initially created (if blank_pin is defined), s
 3. Compare to Stoffregen/Igoe library: pixel current control, blank pin, uses more RAM for pixel data (20 bytes per 4 chars) and string (5 bytes). Check memory usage compiling with each library.
 4. Use pixel map from Broadcom App Note. DONE
 5. Add a clear() method, test, and add to EX1. DONE
-6. Add print methods for ints and floats (I think I only need one each, as automatic casting will cover other cases). 
+6. Add print methods for ints and floats (I think I only need one each, as automatic casting will cover other cases).
 7. Mention in readme that Font5x7 array is available to code, and could potentially be used in a sketch (e.g., to find the last array element, specific bit maps to use if using printDirect to add strikethrough to letters, etc)
 8. Test library (both examples) on both Arduino and Energia before publishing.
 
