@@ -21,7 +21,7 @@ uint8_t displaydata[MAXLEN];
 void setup() {
   Serial.begin(9600);
   myDisplay.begin();          // Initialize the display
-  myDisplay.displayUnblank(); // Default is blanked state, so unblank it when ready
+  myDisplay.displayUnblank(); // Default configuration blanks the display, so need to unblank before using
 
   Serial.println("HCMS39xx Library Example 1");
 }

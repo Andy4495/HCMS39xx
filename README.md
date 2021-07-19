@@ -4,26 +4,27 @@ This library interfaces with Broadcom/Avago [HCMS-39xx][2] and [HCMS-29xx][4] se
 
 There are multiple displays in this series with various colors and display characters.
 
-The library was specifically tested with a single HCMS-3964 display (4 character, 0.2", orange), but should work with other displays in the either the 29xx or 39xx series. It should also work with multiple displays cascaded together.
+The library was specifically tested with a single HCMS-3964 display (4 character, 0.2", orange), but should work with other displays in either the 29xx or 39xx series. It should also work with multiple displays cascaded together.
 
 ## Comparison With LedDisplay Library
 
 This library provides similar functionality as the [LedDisplay library][5]. The following summarizes the main differences:
 
 - HCMS39xx does not inherit from the Print class.
-  - HCMS39xx requires less flash and RAM
+  - HCMS39xx requires less flash and RAM (about 175 fewer bytes flash, and 200 fewer bytes RAM)
   - HCMS39xx does not support cursor functionality
   - HCMS39xx does not suport scrolling functionality, but the serial nature of loading the pixel data into the chip makes scrolling simple to implement outside of the library.
-- HCMS39xx supports controlling the _blank_ and _osc_ pins.
+- HCMS39xx supports controlling the _blank_ and _sel (oscillator select)_ pins.
 - HCMS39xx supports the display sleep functionality.
 - HCMS39xx supports the LED display current control functionality.
 - HCMS39xx supports the external oscillator prescale settings
+- HCMS39xx provides more character pixel definitions in the included font file (while still using less flash)
 - HCMS39xx more elegantly supports simultaneous mode
-  - LedDisplay has a method to use simultaneous mode when writing control registers, but it serially writes all the chips to enable the mode, thereby defeating the purpose of simultaneous mode.
+  - LedDisplay has a method to use simultaneous mode when writing control registers, but it serially writes all the chips to enable the mode when it uses it, thereby defeating the purpose of simultaneous mode.
 
 ## Usage
 
-_Be sure to review the example sketch included with the library._
+_Be sure to review the example sketches included with the library._
 
 First, **include** the library header file:
 
@@ -38,39 +39,56 @@ HCMS39xx myDisplay(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t 
            uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN);
 ```
 
+`blank_pin` and `osc_select_pin` have default values defined in the constructor, and therefore do not need to be included if they are not used (i.e., the are hardwired to specific logic levels instead of controlled by the microcontroller). It is also possible to use the enumeration `HCMS39xx::NO_PIN` if they are included in the constructor.
+
+The constructor sets the oscillator pin (if defined) to internal oscillator, the CE pin to HIGH (inactive), and the blank pin (if defined) to blank the display. 
+
 Then **initialize** the object (typically within `setup()`):
 
 ```cpp
 myDisplay.begin();
 ```
 
+`begin()` initializes the LED hardware with default values:
+
+- Dot register is set to all 0s (all pixels off)
+- Control word 0 set to sleep mode, default current (4.0 mA), default brightness (47%)
+- Control word 1 set to simultaneous mode and external prescaler turned off
+
+Next, use the available **library methods** listed below to control the display. Note that since the default display I/O pin configuration puts the display into blank mode, one of the first methods you will need to use is `displayUnblank()` if you defined the blank pin in the constructor. 
+
 ### Library Methods
 
 ```cpp
-  void print(const char*);
-  void printDirect(const uint8_t*, uint8_t len);
-  void clear();
-  void displaySleep();
-  void displayWakeup();
-  void displayBlank();
-  void displayUnblank();
+  void print(const char* s);  // Print the characters pointed to by s to the display.
+  void printDirect(const uint8_t* d, uint8_t len); // Send the pixel data pointed to by d to the display. Direct pixel control of the display. 
+  void clear();  // Clear the display (by writing all 0s to the dot register)
+  void displaySleep();  // Put the display into low power sleep mode. This turns off the pixel drivers and the internal oscillator. 
+  void displayWakeup();  // Wake up the display
+  void displayBlank();  // Blank the display using the blank pin.
+  void displayUnblank();  // Unblank the display using the blank pin
   void setBrightness(uint8_t value); // 0 <= value <= 15 
-  void setCurrent(uint8_t value); // See header file for enumerated definitions for value
-  void setExtOsc();
-  void setIntOsc();
-  void setExternalPrescaleDiv8();
-  void setExternalPrescaleNormal();
-  void setSimultaneousMode();
-  void setSerialMode();
+  void setCurrent(DISPLAY_CURRENT value); // See header file for enumerated definitions for value
+  void setExtOsc();  // Enable external oscillator with the oscillator select pin
+  void setIntOsc();  // Enable internal oscillator with the oscillator select pin
+  void setExternalPrescaleDiv8();  // Set the external oscillator prescale divider to 8
+  void setExternalPrescaleNormal();  // Set the external oscillator prescale divider to 1
+  void setSimultaneousMode();  // Enable simultaneous mode (only affects writes to control word registers)
+  void setSerialMode();  // Enable serial mode (only affects writes to control word registers)
 ```
 
 Note that the display is blanked when it is initially created (if blank_pin is defined), so you need to use the displayUnblank() method before any characters will actually be displayed.
 
 ## Implementation Details
 
-- Ordering of pixels. Bottom pixels are most significant (i.e., pixels start from bottom left to upper right by column)
-- Default settings after calling begin(): pixels, control word0, control word 1. Screen blanked.
-- Pixel map from Broadcom [app note][3] Table 1. Notes on updating pixel map and adding characters. Also font map meta-data. How to easily add strikethrough to characters and other hints.
+- The pixels are controlled bottom to top. The most significant bit (bit 7) of the dot data byte is unused. So to turn on the bottom pixel in a column, use a value of `0x40`. To turn on the top pixel, use `0x01`.
+- The pixel map for the 5x7 font included with this library is adapted from Broadcom Application Brief [D-003][3] Table 1. I changed a handful of pixel definitions to make them look a little better than the ones defined in the table.
+- The `font5x7[`] pixel map can be accessed from sketches, so it would be possible to create some effects like creating a strikethrough character by reading the pixel data from `font5x7[]` and ORing it with `0x10` and using printDirect() to send the resulting pixels to the display.
+- The pixel map in `font5x7.h` can be modified by adding additional characters to the bottom of the array. Note that you should also update the "last ASCII character" value at array position \[1\] if you add characters.
+- It is also possible to save memory by decreasing the size of the `font5x7[]` array. In particular, 31 bytes can be saved by removing the symbols below ASCII 0x20 (since those technically aren't ASCII characters anyway). Just be sure to update the "first ASCII character" value at array position \[0\].
+- Notes on updating pixel map and adding characters. Also font map meta-data. How to easily add strikethrough to characters and other hints.
+
+Review the [datasheet][1] for other chip operation details.
 
 ## To-Do
 
@@ -79,9 +97,10 @@ Note that the display is blanked when it is initially created (if blank_pin is d
 
 ## References
 
-- HCMS-39xx [datasheet][1]
-- Broadcom [Application Note][3] with ASCII font encoding data.
-- Broadcom 29xx series [datasheet][4]
+- Broadcom HCMS-39xx series[datasheet][1]
+- Broadcom [Application Note][3] with ASCII font encoding data
+- Broadcom HCMS-29xx series [datasheet][4]
+- Arduino [Playground][6] description of the LedDisplay library
 
 ## License
 

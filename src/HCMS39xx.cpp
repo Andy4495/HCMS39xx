@@ -44,7 +44,7 @@ void HCMS39xx::begin() {
     // Set up the font
     _first_ascii_index = pgm_read_byte(&font5x7[0]) - 1; // Need to subtract 1 since the first entry in table is font meta-data
 
-    // Per datasheet, load control word 0 with desired brightness and set sleep bit HIGH
+    // Per datasheet, load control word 0 with desired brightness and set sleep bit HIGH (awake)
     _control_word0 = WAKEUP | DEFAULT_BRIGHTNESS | DEFAULT_CURRENT; 
     setupControlData();
     for (i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
@@ -52,13 +52,8 @@ void HCMS39xx::begin() {
     }
     endTransmission();
 
-    // Load control word 1 with serial mode and external prescale normal
-    _control_word1 = CONTROL_WORD1 | 0; 
-    setupControlData();
-    for (i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
-        sendByte(_control_word1);
-    }
-    endTransmission();
+    _control_word1 = CONTROL_WORD1;
+    setSimultaneousMode(); // This has the side-effect of setting the default value for control word 1
 }
 
 void HCMS39xx::print(const char* s) {
@@ -97,36 +92,32 @@ void HCMS39xx::clear() {
 }
 
 void HCMS39xx::displaySleep() {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
-
-    setSimultaneousMode(); // Turn on simultaneous 
     _control_word0 = _control_word0 & ~SLEEP_MASK; 
-    setupControlData();
-    sendByte(_control_word0);
-    endTransmission();
 
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
     setupControlData();
-    sendByte(_control_word1); 
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // simultaneous mode, then only need to send once
+        sendByte(_control_word0);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word0); 
+        }
+    }
     endTransmission();
 }
 
 void HCMS39xx::displayWakeup() {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
+    _control_word0 = _control_word0 | WAKEUP; 
 
-    setSimultaneousMode(); // Turn on simultaneous 
-    _control_word0 = _control_word0 | SLEEP_MASK; 
     setupControlData();
-    sendByte(_control_word0);
-    endTransmission();
-
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
-    setupControlData();
-    sendByte(_control_word1); 
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // simultaneous mode, then only need to send once
+        sendByte(_control_word0);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word0); 
+        }
+    }
     endTransmission();
 }
 
@@ -143,36 +134,32 @@ void HCMS39xx::displayUnblank() {
 }
 
 void HCMS39xx::setBrightness(uint8_t value) {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
-
-    setSimultaneousMode(); // Turn on simultaneous 
     _control_word0 = (_control_word0 & ~BRIGHTNESS_MASK) | (value & BRIGHTNESS_MASK); 
-    setupControlData();
-    sendByte(_control_word0); 
-    endTransmission();
 
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
     setupControlData();
-    sendByte(_control_word1); 
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // simultaneous mode, then only need to send once
+        sendByte(_control_word0);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word0); 
+        }
+    }
     endTransmission();
 }
 
-void HCMS39xx::setCurrent(uint8_t value) {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
-
-    setSimultaneousMode(); // Turn on simultaneous 
+void HCMS39xx::setCurrent(DISPLAY_CURRENT value) {
     _control_word0 = (_control_word0 & ~PIXEL_CURRENT_MASK) | (value & PIXEL_CURRENT_MASK); 
-    setupControlData();
-    sendByte(_control_word0); 
-    endTransmission();
 
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
     setupControlData();
-    sendByte(_control_word1); 
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // simultaneous mode, then only need to send once
+        sendByte(_control_word0);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word0); 
+        }
+    }
     endTransmission();
 }
 
@@ -189,36 +176,32 @@ void HCMS39xx::setIntOsc() {
 }
 
 void HCMS39xx::setExternalPrescaleDiv8() {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
-
-    setSimultaneousMode(); // Turn on simultaneous 
     _control_word1 = _control_word1 | EXT_PRESCALER_DIV8; 
-    setupControlData();
-    sendByte(_control_word1); 
-    endTransmission();
 
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
     setupControlData();
-    sendByte(_control_word1); 
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // simultaneous mode, then only need to send once
+        sendByte(_control_word1);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word1); 
+        }
+    }
     endTransmission();
 }
 
 void HCMS39xx::setExternalPrescaleNormal() {
-    // Save current control word 1 value so we can temporarily turn on simultaneous mode
-    uint8_t temp_control_word1 = _control_word1; 
-
-    setSimultaneousMode(); // Turn on simultaneous 
     _control_word1 = _control_word1 & ~EXT_PRESCALER_DIV8;
-    setupControlData();
-    sendByte(_control_word1); 
-    endTransmission();
 
-    // Restore previous setting
-    _control_word1 = temp_control_word1;
     setupControlData();
-    sendByte(_control_word1);
+    if (_control_word1 & DATA_OUT_MODE_SIMUL) {  // Simultaneous mode, then only need to send once
+        sendByte(_control_word1);
+    }
+    else { // Serial mode, then need to send for each driver chip
+        for (int i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {
+            sendByte(_control_word1); 
+        }
+    }
     endTransmission();
 }
 
@@ -234,13 +217,11 @@ void HCMS39xx::setSimultaneousMode() {
 }
 
 void HCMS39xx::setSerialMode() {
-     uint8_t i; 
-
     _control_word1 = _control_word1 & ~DATA_OUT_MODE_SIMUL;
+
+    // Assume we are in simultaneous mode, so only send once
     setupControlData();
-    for (i = 0; i < _num_chars / CHARS_PER_DEVICE; i++) {   
-        sendByte(_control_word1);
-    }
+    sendByte(_control_word1); 
     endTransmission();
 }
 

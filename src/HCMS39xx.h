@@ -16,8 +16,8 @@ class HCMS39xx {
 public:
   enum {NO_PIN = 255};
   enum {DEFAULT_BRIGHTNESS = 0x0C}; // 0x0C => HHLL -> 47% relative brightness
-  enum {DEFAULT_CURRENT = 0x20};   // 4.0 mA peak pixel current (lowest setting) 
-  enum {CURRENT_4_0_mA = 0x20, CURRENT_6_4_mA = 0x10, CURRENT_9_3_mA = 0x00, CURRENT_12_8_mA = 0x30}; 
+  ///enum {DEFAULT_CURRENT = 0x20};   // 4.0 mA peak pixel current (lowest setting) 
+  enum DISPLAY_CURRENT {DEFAULT_CURRENT = 0x20, CURRENT_4_0_mA = 0x20, CURRENT_6_4_mA = 0x10, CURRENT_9_3_mA = 0x00, CURRENT_12_8_mA = 0x30}; 
 
   HCMS39xx(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
            uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN);
@@ -30,7 +30,7 @@ public:
   void displayBlank();
   void displayUnblank();
   void setBrightness(uint8_t value);
-  void setCurrent(uint8_t value);
+  void setCurrent(DISPLAY_CURRENT value);
   void setExtOsc();
   void setIntOsc();
   void setExternalPrescaleDiv8();
