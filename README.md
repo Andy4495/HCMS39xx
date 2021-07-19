@@ -111,7 +111,7 @@ The software and other files in this repository are released under what is commo
 [4]:https://docs.broadcom.com/doc/HCMS-29xx-Series-High-Performance-CMOS-5-x-7-Alphanumeric-Displays
 [5]:https://github.com/PaulStoffregen/LedDisplay
 [6]:https://playground.arduino.cc/Main/LedDisplay/
-[7]:../examples
+[7]:./examples
 [100]: https://choosealicense.com/licenses/mit/
 [101]: ./LICENSE
 [200]: https://github.com/Andy4495/HCMS39xx
