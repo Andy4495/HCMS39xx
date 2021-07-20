@@ -10,6 +10,7 @@
 */
 
 #include "HCMS39xx.h"
+#include "font5x7.h"   // This is only needed for example 15 below
 
 // HCMS39xx(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
 //          uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN)
@@ -187,7 +188,34 @@ void loop() {
   myDisplay.print("h"); 
   delay(3000);
 
-  Serial.println("Example 15: Clear the display with clear() method.");
+  Serial.println("Example 15: Manually create strikethrough characters."); 
+  uint8_t p[5];  // there are 5 pixel columns per character
+  for (i = 0; i < 5; i++) p[i] = pgm_read_byte(&font5x7[0x53 * 5 + i]) | 0x10;  // Add a strikethrough bar to existing font pixel definition
+  myDisplay.printDirect(p, 5);
+  for (i = 0; i < 5; i++) p[i] = pgm_read_byte(&font5x7[0x74 * 5 + i]) | 0x10;  // Add a strikethrough bar to existing font pixel definition
+  myDisplay.printDirect(p, 5);
+  for (i = 0; i < 5; i++) p[i] = pgm_read_byte(&font5x7[0x72 * 5 + i]) | 0x10;  // Add a strikethrough bar to existing font pixel definition
+  myDisplay.printDirect(p, 5);
+  for (i = 0; i < 5; i++) p[i] = pgm_read_byte(&font5x7[0x6B * 5 + i]) | 0x10;  // Add a strikethrough bar to existing font pixel definition
+  myDisplay.printDirect(p, 5);
+  delay(3000);
+
+  Serial.println("Example 16: Print small integers -10 through 10. Number is right justified with padding to the left."); 
+  Serial.print("  "); 
+  for (i = -10; i < 11; i++) {
+    myDisplay.print(i); 
+    Serial.print(i); 
+    Serial.print("...");
+    delay(1000);
+  }
+  Serial.println(""); 
+  delay(2000);
+
+  Serial.println("Example 17: Print a large integer 4,294,967,295. Number is truncated on the right if there are not enough characters to display."); 
+  myDisplay.print(4294967295UL); 
+  sleep(3000);
+
+  Serial.println("Example 18: Clear the display with clear() method.");
   myDisplay.clear();
   delay(3000);
 }

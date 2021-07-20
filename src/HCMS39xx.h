@@ -22,6 +22,10 @@ public:
            uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN);
   void begin(); 
   void print(const char*);
+  void print(int j);
+  void print(unsigned int j); 
+  void print(long j);
+  void print(unsigned long j);
   void printDirect(const uint8_t*, uint8_t len);
   void clear();
   void displaySleep();

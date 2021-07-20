@@ -71,6 +71,41 @@ void HCMS39xx::print(const char* s) {
     endTransmission();
 }
 
+void HCMS39xx::print(int j) {
+    char s[7]; // Largest  integer is 5 digits plus sign character plus null pointer
+
+    snprintf(s, 7, "%d", j); 
+    if (_num_chars > strlen(s)) clear(); // Clear the display if the number of characters is shorter than the display
+    print(s);
+
+}
+
+void HCMS39xx::print(unsigned int j) {
+    char s[6]; // Largest  integer is 5 digits plus null pointer
+
+    snprintf(s, 6, "%d", j); 
+    if (_num_chars > strlen(s)) clear(); // Clear the display if the number of characters is shorter than the display
+    print(s);
+
+}
+
+void HCMS39xx::print(long j) {
+    char s[12]; // Largest long integer is 10 digits plus sign character plus null pointer
+
+    snprintf(s, 12, "%ld", j); 
+    if (_num_chars > strlen(s)) clear(); // Clear the display if the number of characters is shorter than the display 
+    print(s);
+
+}
+
+void HCMS39xx::print(unsigned long j) {
+    char s[11]; // Largest unsigned long integer is 10 digits plus null pointer
+
+    snprintf(s, 11, "%lu", j); 
+    if (_num_chars > strlen(s)) clear(); // Clear the display if the number of characters is shorter than the display
+    print(s); 
+}
+
 void HCMS39xx::printDirect(const uint8_t* s, uint8_t len) {
     uint8_t i; 
 
