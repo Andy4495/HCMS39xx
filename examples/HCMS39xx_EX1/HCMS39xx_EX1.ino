@@ -213,7 +213,7 @@ void loop() {
 
   Serial.println("Example 17: Print a large integer 4,294,967,295. Number is truncated on the right if there are not enough characters to display."); 
   myDisplay.print(4294967295UL); 
-  sleep(3000);
+  delay(3000);
 
   Serial.println("Example 18: Clear the display with clear() method.");
   myDisplay.clear();
