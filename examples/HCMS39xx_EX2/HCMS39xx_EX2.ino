@@ -23,7 +23,7 @@ char displaydata[MAXLEN];
 
 #define DELAYMS 1000UL
 #define FIRSTCHAR 1
-#define LASTCHAR 127
+#define LASTCHAR 0x99
 
 unsigned long prevmillis;
 

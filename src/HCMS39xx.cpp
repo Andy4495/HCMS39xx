@@ -62,7 +62,7 @@ void HCMS39xx::print(const char* s) {
     setupDotData();
     for (i = 0; i < _num_chars; i++) { // Don't loop for more chars than defined for the display object
         if (s[i] != 0) {
-            sendFontData(font5x7 + (s[i] - _first_ascii_index) * COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
+        sendFontData(font5x7 + (uint8_t)(s[i] - _first_ascii_index) * (uint16_t)COLUMNS_PER_CHAR, COLUMNS_PER_CHAR);
         }
         else  { // If we find a NULL terminator, then break out of loop
             break;

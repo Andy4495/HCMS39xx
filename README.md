@@ -86,17 +86,12 @@ The integer version of `print()` is actually four separate functions to suport p
 
 - The display is blanked when the object instance is initially created (if blank_pin is defined), so you need to use the `displayUnblank()` method before any characters will actually be visible on the display.
 - The pixels are controlled bottom to top. The most significant bit (bit 7) of the dot data byte is unused. So to turn on the bottom pixel in a column, use a value of `0x40` with the `printDirect()` method. To turn on the top pixel, use `0x01`.
-- The pixel map for the 5x7 font included with this library is adapted from Broadcom Application Brief [D-003][3] Table 1. A handful of pixel definitions were changed to make them look a little better than the ones defined in the table.
+- The pixel map for the 5x7 font included with this library is adapted from Broadcom Application Brief [D-003][3] Table 1. A handful of pixel definitions were changed to make them look a little better than the ones defined in the table. In addition, several useful symbols were added at the end of the table with index values greater than 0x7F.
 - The `font5x7[]` pixel map can be accessed from sketches if you `#include "font5x7.h"`. It is therefore possible to create some effects like overlaying a strikethrough line across charactesr by reading the pixel data from `font5x7[]` and ORing it with `0x10` and using printDirect() to send the resulting pixels to the display.
 - The pixel map in `font5x7.h` can be modified by adding character pixel maps to the bottom of the array. Note that you should also update the "last ASCII character" value at array position \[1\] if you add characters.
 - It is also possible to save flash memory by decreasing the size of the `font5x7[]` array. In particular, 31 bytes can be saved by removing the symbols less than ASCII 0x20 (since those technically aren't ASCII characters anyway). Just be sure to update the "ASCII offset" value at array position \[0\].
 
 Review the [datasheet][1] for other chip operation details.
-
-## To-Do
-
-1. Fix support for character values > 127 (signed/unsigned datatype issue). 
-2. Test library (both examples) on both Arduino and Energia before publishing.
 
 ## References
 
