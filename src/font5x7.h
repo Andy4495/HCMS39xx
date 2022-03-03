@@ -162,7 +162,7 @@ static const unsigned char PROGMEM font5x7[] = {
 	0x04, 0x02, 0x04, 0x08, 0x04, // 0x7E ~ (changed from 0x08, 0x04, 0x08, 0x10, 0x08)
 	0xFF, 0xFF, 0xFF, 0xFF, 0xFF,  // 0x7F Solid block (replaces ASCII definition of DEL) (changed from 0x2A, 0x55, 0x2A, 0x55, 0x2A)
 	// Additional user-defined characters can be added here, up to 0xFF (i.e., 8-bits for a max of 255 character definitions)
-	// Be sure to update index 1 (currently 0x7F) with the updated highest supported character value when adding characters.
+	// Be sure to update index 1 (line 32 above, second value in the "00" definition) with the updated highest supported character value when adding characters.
 
 	/// Extra characters
 	0x2A, 0x55, 0x2A, 0x55, 0x2A, // 0x80 Every other pixel on/off
