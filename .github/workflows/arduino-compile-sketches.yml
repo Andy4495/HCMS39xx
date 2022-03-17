@@ -15,6 +15,8 @@ jobs:
           sketch-paths: |
             - .
             - examples
+          verbose: true
+          enable-warnings-report: true
 #        libraries: |
 #          - name: Lib1
 #          - name: Lib2
