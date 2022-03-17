@@ -14,7 +14,6 @@ jobs:
           fqbn: 'arduino:avr:uno'
           sketch-paths: |
             - .
-            - examples
           verbose: true
           enable-warnings-report: true
 #        libraries: |
