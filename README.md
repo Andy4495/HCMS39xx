@@ -1,5 +1,7 @@
 # HCMS39xx Library
 
+[![Arduino Compile Sketches](https://github.com/Andy4495/HCMS39xx/actions/workflows/arduino-compile-sketches.yml/badge.svg)](https://github.com/Andy4495/HCMS39xx/actions/workflows/arduino-compile-sketches.yml)
+
 This library interfaces with Broadcom/Avago [HCMS-39xx][2] and [HCMS-29xx][4] series LED displays.
 
 There are multiple displays in this series with various colors and display characters.
