@@ -2,7 +2,7 @@
 # Uses: https://github.com/arduino/compile-sketches
 
 on: 
-  - push
+  push:
 
 jobs:
   compile-sketches: 
