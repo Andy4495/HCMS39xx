@@ -10,11 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: arduino/compile-sketches@v1
-      with:
-        fqbn: 'arduino:avr:uno'
-        sketch-paths: |
-          - .
-          - examples
+        with:
+          fqbn: 'arduino:avr:uno'
+          sketch-paths: |
+            - .
+            - examples
 #        libraries: |
 #          - name: Lib1
 #          - name: Lib2
