@@ -1,0 +1,20 @@
+# From: https://github.com/marketplace/actions/compile-arduino-sketches
+# Uses: https://github.com/arduino/compile-sketches
+
+on: 
+  - push
+
+jobs:
+  compile-sketches: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: arduino/compile-sketches@v1
+      with:
+        fqbn: 'arduino:avr:uno'
+        sketch-paths: |
+          - .
+          - examples
+#        libraries: |
+#          - name: Lib1
+#          - name: Lib2
