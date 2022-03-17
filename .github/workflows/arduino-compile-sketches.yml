@@ -1,5 +1,6 @@
 # From: https://github.com/marketplace/actions/compile-arduino-sketches
 # Uses: https://github.com/arduino/compile-sketches
+name: Arduino Compile Sketches
 
 on: 
   push:
