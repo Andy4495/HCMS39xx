@@ -17,6 +17,4 @@ jobs:
             - .
           verbose: true
           enable-warnings-report: true
-#        libraries: |
-#          - name: Lib1
-#          - name: Lib2
+
