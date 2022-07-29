@@ -7,12 +7,28 @@ on:
 
 jobs:
   compile-sketches: 
+    strategy:
+      matrix:
+        include:
+          - arch: avr
+            fqbn: 'arduino:avr:uno'
+            platform-name: 'arduino:avr'
+            platform-sourceurl: 'https://downloads.arduino.cc/packages/package_index.json'
+          - arch: msp
+            fqbn: 'energia:msp430:MSP-EXP430G2553LP'
+            platform-name: 'energia:msp430'
+            platform-sourceurl: 'https://raw.githubusercontent.com/Andy4495/TI_Platform_Cores_For_Arduino/main/json/package_energia_minimal_MSP_107_index.json'
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
       - uses: arduino/compile-sketches@v1
         with:
-          fqbn: 'arduino:avr:uno'
+          fqbn: ${{ matrix.fqbn }}
+          platforms: |
+            - name: ${{ matrix.platform-name }}
+              version: latest
+              source-url: ${{ matrix.platform-sourceurl }}          
           sketch-paths: |
             - .
           verbose: true
