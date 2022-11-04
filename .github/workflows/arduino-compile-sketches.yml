@@ -4,16 +4,34 @@ name: Arduino Compile Sketches
 
 on: 
   push:
+  workflow_dispatch:
+    inputs:
+      message:
+        description: Message to display in job summary
+        required: false
+        type: string
 
 jobs:
   compile-sketches: 
     strategy:
       matrix:
         include:
-          - arch: avr
+          - arch: avr-uno
             fqbn: 'arduino:avr:uno'
             platform-name: 'arduino:avr'
             platform-sourceurl: 'https://downloads.arduino.cc/packages/package_index.json'
+          - arch: avr-nano
+            fqbn: 'arduino:avr:nano'
+            platform-name: 'arduino:avr'
+            platform-sourceurl: 'https://downloads.arduino.cc/packages/package_index.json'
+          - arch: avr-micro
+            fqbn: 'arduino:avr:micro'
+            platform-name: 'arduino:avr'
+            platform-sourceurl: 'https://downloads.arduino.cc/packages/package_index.json'
+          - arch: stm32
+            fqbn: 'STMicroelectronics:stm32:GenF1:pnum=BLUEPILL_F103C8'
+            platform-name: 'STMicroelectronics:stm32'
+            platform-sourceurl: 'https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json'
           - arch: msp
             fqbn: 'energia:msp430:MSP-EXP430G2553LP'
             platform-name: 'energia:msp430'
@@ -33,4 +51,7 @@ jobs:
             - .
           verbose: true
           enable-warnings-report: true
-
+      - name: Print the job summary
+        if: ${{ inputs.message }}
+        run: |
+          echo ${{ inputs.message }} >$GITHUB_STEP_SUMMARY
