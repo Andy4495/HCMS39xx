@@ -130,23 +130,23 @@ When using the [example sketches][7] included in the library, connect the displa
 | GND LED     | GND     |   7  |                                                           |
 | No Pin      | NC      |   8  | No physical pin, nothing to connect                       |
 | No Pin      | NC      |   9  | No physical pin, nothing to connect                       |
-| V_LED       | Vcc     |  10  | See Note below                                            |
-| No Pin      | Vcc     |  11  | No physical pin, nothing to connect                       |
-| No Pin      | Vcc     |  12  | No physical pin, nothing to connect                       |
+| V_LED       | Vcc     |  10  | See [Note](#note) below                                   |
+| No Pin      | NC      |  11  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |  12  | No physical pin, nothing to connect                       |
 | No Pin      | NC      |  13  | No physical pin, nothing to connect                       |
 | DATA_IN     | 6       |  14  |                                                           |
-| RS          | 7       |  15  | See [Note](#note) below                                   |
-| No Pin      | 6       |  16  | No physical pin, nothing to connect                       |
+| RS          | 7       |  15  |                                                           |
+| No Pin      | NC      |  16  | No physical pin, nothing to connect                       |
 | CLOCK       | 8       |  17  |                                                           |
 | CE          | 9       |  18  |                                                           |
 | BLANK       | 10      |  19  |                                                           |
 | GND LOGIC   | GND     |  20  |                                                           |
 | SEL         | Vcc     |  21  | See [Note](#note) below                                   |
 | V_LOGIC     | Vcc     |  22  | See [Note](#note) below                                   |
-| No Pin      | Vcc     |  23  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |  23  | No physical pin, nothing to connect                       |
 | RESET       | Vcc     |  24  | See [Note](#note) below                                   |
 | OSC         | NC      |  25  | Leave unconnected                                         |
-| DATA_OUT    | NC      |   1  | Leave unconnected unless cascading output to another HCMS |
+| DATA_OUT    | NC      |  26  | Leave unconnected unless cascading output to another HCMS |
 
 #### Note
 
