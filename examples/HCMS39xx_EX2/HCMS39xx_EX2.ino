@@ -10,8 +10,9 @@
 */
 #include "HCMS39xx.h"
 
-// HCMS39xx(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin,
-//          uint8_t ce_pin, uint8_t blank_pin = NO_PIN, uint8_t osc_select_pin = NO_PIN)
+// See https://github.com/Andy4495/HCMS39xx/blob/main/README.md#hardware-connections for wiring info
+// HCMS39xx(uint8_t num_chars, uint8_t data_pin, uint8_t rs_pin, uint8_t clk_pin, 
+//          uint8_t ce_pin, uint8_t blank_pin)
 HCMS39xx myDisplay(4, 6, 7, 8, 9, 10); // osc_select_pin tied high, not connected to microcontroller
 
 // Since we are only displaying one character at a time, then displaydata

@@ -96,6 +96,64 @@ The integer version of `print()` is actually four separate functions to suport p
 
 Review the [datasheet][1] for other chip operation details.
 
+## Hardware Connections
+
+When using the [example sketches][7] included in the library, connect the display as follows. See the device datasheet when configuring displays for other scenarios.
+
+### Four Digit Displays (HCMS-390x, HCMS-396x, HCMS-290x, and HCMS-296x)
+
+| Signal Name | Arduino | HCMS | Comment                                                   |
+| :---------- | :-----: | :--: | :-------------------------------------------------------- |
+| DATA_OUT    | NC      |   1  | Leave unconnected unless cascading output to another HCMS |
+| OSC         | NC      |   2  | Leave unconnected                                         |
+| V_LED       | Vcc     |   3  | See [Note](#note) below                                   |
+| DATA_IN     | 6       |   4  |                                                           |
+| RS          | 7       |   5  |                                                           |
+| CLOCK       | 8       |   6  |                                                           |
+| CE          | 9       |   7  |                                                           |
+| BLANK       | 10      |   8  |                                                           |
+| GND         | GND     |   9  |                                                           |
+| SEL         | Vcc     |  10  | See [Note](#note) below                                   |
+| V_LOGIC     | Vcc     |  11  | See [Note](#note) below                                   |
+| RESET       | Vcc     |  12  | See [Note](#note) below                                   |
+
+### Eight Digit Displays (HCMS-391x, HCMS-397x, HCMS-291x, and HCMS-297x)
+
+| Signal Name | Arduino | HCMS | Comment                                                   |
+| :---------- | :-----: | :--: | :-------------------------------------------------------- |
+| No Pin      | NC      |   1  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |   2  | No physical pin, nothing to connect                       |
+| V_LED       | Vcc     |   3  | See [Note](#note) below                                   |
+| No Pin      | NC      |   4  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |   5  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |   6  | No physical pin, nothing to connect                       |
+| GND LED     | GND     |   7  |                                                           |
+| No Pin      | NC      |   8  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |   9  | No physical pin, nothing to connect                       |
+| V_LED       | Vcc     |  10  | See Note below                                            |
+| No Pin      | Vcc     |  11  | No physical pin, nothing to connect                       |
+| No Pin      | Vcc     |  12  | No physical pin, nothing to connect                       |
+| No Pin      | NC      |  13  | No physical pin, nothing to connect                       |
+| DATA_IN     | 6       |  14  |                                                           |
+| RS          | 7       |  15  | See [Note](#note) below                                   |
+| No Pin      | 6       |  16  | No physical pin, nothing to connect                       |
+| CLOCK       | 8       |  17  |                                                           |
+| CE          | 9       |  18  |                                                           |
+| BLANK       | 10      |  19  |                                                           |
+| GND LOGIC   | GND     |  20  |                                                           |
+| SEL         | Vcc     |  21  | See [Note](#note) below                                   |
+| V_LOGIC     | Vcc     |  22  | See [Note](#note) below                                   |
+| No Pin      | Vcc     |  23  | No physical pin, nothing to connect                       |
+| RESET       | Vcc     |  24  | See [Note](#note) below                                   |
+| OSC         | NC      |  25  | Leave unconnected                                         |
+| DATA_OUT    | NC      |   1  | Leave unconnected unless cascading output to another HCMS |
+
+#### Note
+
+The 29xx series only works with 5 volt display and logic voltages per the [datasheet][4]. So connect all Vcc signals to 5 V.
+
+The 39xx series works at either 3.3 or 5 volts. If using a 5 V Arduino (like the Uno), connect all Vcc signals to 5 V. If using a 3.3 V Arduino, connect all Vcc signals to 3.3 V.
+
 ## References
 
 - Broadcom HCMS-39xx series [datasheet][1] and HCMS-3964 [product page][2]
