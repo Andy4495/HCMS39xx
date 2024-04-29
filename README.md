@@ -13,17 +13,22 @@ The library was specifically tested with a single HCMS-3964 display (4 character
 
 This library provides similar functionality as the [LedDisplay library][5]. The following summarizes the main differences:
 
-- HCMS39xx does not inherit from the Print class.
-  - HCMS39xx requires less flash and RAM (compiling with a simple `print()` sketch: about 175 fewer bytes flash, and 200 fewer bytes RAM).
-  - HCMS39xx does not support cursor functionality.
-  - HCMS39xx does not suport scrolling functionality, but the serial nature of loading the pixel data into the chip makes scrolling simple to implement outside of the library.
-- HCMS39xx supports controlling the _blank_ and _sel (oscillator select)_ pins.
-- HCMS39xx supports the display sleep functionality.
-- HCMS39xx supports the LED display current control functionality.
-- HCMS39xx supports the external oscillator prescale settings.
-- HCMS39xx provides more character pixel definitions in the included font file (while still using less flash).
-- HCMS39xx more elegantly supports simultaneous mode.
-  - LedDisplay has a method to use simultaneous mode when writing control registers, but it serially writes all the chips to enable the mode when it uses it, thereby defeating the purpose of simultaneous mode.
+| Functionality                     | HCMS39xx (this library)     | [LedDisplay library][5]    |
+| --------------------------------- | --------------------------- | -------------------------- |
+| Inherit from `Print` class        | No                          | Yes                        |
+| Flash size (bytes)                | About 175 fewer bytes       | About 175 more bytes       |
+| RAM size (bytes)                  | About 200 fewer bytes       | About 200 more bytes       |
+| Cursors                           | Not supported               | Supported                  |
+| Scrolling                         | Not supported               | Supported                  |
+| _BLANK_ pin                       | Supported                   | Not supported              |
+| _SEL (oscillator select)_ pin     | Supported                   | Not supported              |
+| Display sleep                     | Supported                   | Not supported              |
+| Display current control           | Supported                   | Not supported              |
+| External oscillator prescale      | Supported                   | Not supported              |
+| Font file character definitions   | Standard plus 57 additional | ASCII 32 - 127 only        |
+| Simultaneous mode (see below)     | Correct implementation      | Ineffecient implementation |
+
+LedDisplay has a method to use simultaneous mode when writing control registers, but it serially writes all the chips to enable the mode when it uses it, thereby defeating the purpose of simultaneous mode.
 
 ## Usage
 
@@ -59,6 +64,18 @@ _Be sure to review the [example sketches][7] included with the library._
     - Control word 1 set to simultaneous mode and external prescaler turned off
 
 4. Use the available **library methods** listed below to control the display.
+
+### Default State
+
+The default state of the `HCMS39xx` object when instantiated is:
+
+- Wakeup mode
+- Display blanked
+- Brightness level 12 (47 %)
+- Display current level 4.0 mA
+- Oscillator Select pin high (internal oscillator)
+- External oscillator prescale divider 1
+- Simultaneous mode enabled
 
 ### Library Methods
 
