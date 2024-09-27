@@ -35,7 +35,7 @@ jobs:
           - arch: msp
             fqbn: 'energia:msp430:MSP-EXP430G2553LP'
             platform-name: 'energia:msp430'
-            platform-sourceurl: 'https://raw.githubusercontent.com/Andy4495/TI_Platform_Cores_For_Arduino/main/json/package_energia_minimal_MSP_107_index.json'
+            platform-sourceurl: 'https://raw.githubusercontent.com/Andy4495/TI_Platform_Cores_For_Arduino/refs/heads/main/json/package_energia_minimal_msp430_index.json'
           - arch: esp8266
             fqbn: 'esp8266:esp8266:thing'
             platform-name: 'esp8266:esp8266'
