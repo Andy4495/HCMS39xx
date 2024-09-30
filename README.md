@@ -1,7 +1,7 @@
 # HCMS39xx Library
 
 [![Arduino Compile Sketches](https://github.com/Andy4495/HCMS39xx/actions/workflows/arduino-compile-sketches.yml/badge.svg)](https://github.com/Andy4495/HCMS39xx/actions/workflows/arduino-compile-sketches.yml)
-[![Check Markdown Links](https://github.com/Andy4495/HCMS39xx/actions/workflows/CheckMarkdownLinks.yml/badge.svg)](https://github.com/Andy4495/HCMS39xx/actions/workflows/CheckMarkdownLinks.yml)
+[![Check Markdown Links](https://github.com/Andy4495/HCMS39xx/actions/workflows/check-links.yml/badge.svg)](https://github.com/Andy4495/HCMS39xx/actions/workflows/check-links.yml)
 
 This library interfaces with Broadcom/Avago [HCMS-39xx][2] and [HCMS-29xx][4] series LED displays.
 
