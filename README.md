@@ -189,7 +189,7 @@ The software and other files in this repository are released under what is commo
 [5]:https://github.com/PaulStoffregen/LedDisplay
 [6]:https://playground.arduino.cc/Main/LedDisplay/
 [7]:./examples
-[8]:https://www.cplusplus.com/reference/cstdio/snprintf/?kw=snprintf
+[8]:https://en.cppreference.com/w/c/io/fprintf
 [100]: https://choosealicense.com/licenses/mit/
 [101]: ./LICENSE
 [//]: # ([200]: https://github.com/Andy4495/HCMS39xx)
