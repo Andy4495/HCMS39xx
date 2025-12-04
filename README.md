@@ -173,7 +173,7 @@ The 39xx series works at either 3.3 or 5 volts. If using a 5 V Arduino (like the
 
 ## References
 
-- Broadcom HCMS-39xx series [datasheet][1] and HCMS-3964 [product page][2]
+- Broadcom HCMS-39xx series [datasheet][1] and HCMS-39xx [product page][2]
 - Broadcom [Application Note][3] with ASCII font encoding data
 - Broadcom HCMS-29xx series [datasheet][4]
 - Arduino [Playground][6] description of the [LedDisplay library][5]
@@ -183,7 +183,7 @@ The 39xx series works at either 3.3 or 5 volts. If using a 5 V Arduino (like the
 The software and other files in this repository are released under what is commonly called the [MIT License][100]. See the file [`LICENSE`][101] in this repository.
 
 [1]:https://docs.broadcom.com/docs/AV02-0868EN
-[2]:https://www.broadcom.com/products/leds-and-displays/smart-alphanumeric-displays/serial-interface/hcms-3964
+[2]:https://www.broadcom.com/products/leds-and-displays/smart-alphanumeric-displays/serial-interface/hcms-3966
 [3]:https://docs.broadcom.com/doc/5988-7539EN
 [4]:https://docs.broadcom.com/doc/HCMS-29xx-Series-High-Performance-CMOS-5-x-7-Alphanumeric-Displays
 [5]:https://github.com/PaulStoffregen/LedDisplay
